@@ -27,13 +27,17 @@ app.get('/',async(req,res)=>{
 app.post('/',async(req,res)=>{
     try {
         const prompt = req.body.prompt;
+        //limit only 100 letters if its more
+        if (prompt.length > 100){
+            prompt = prompt.substring(0,99)
+        }
         console.log("Input Prompt:",prompt)
 
         const response = await openai.createCompletion({
             model: "text-davinci-003",
             prompt: `${prompt}`,
             temperature: 0,
-            max_tokens: 3000,
+            max_tokens: 100,
             top_p: 1,
             frequency_penalty: 0.5,
             presence_penalty: 0,
